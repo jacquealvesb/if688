@@ -12,6 +12,6 @@
 
 ## para rodar:
 ```
-lua rpnStacker.lua [nome do arquivo]        
+python rpnStacker.py [nome do arquivo]        
 ```
 _obs.: se um arquivo não for dado como entrada, usa o `Calc1.stk` presente na pasta como padrão_
