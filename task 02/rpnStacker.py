@@ -1,6 +1,6 @@
 import sys
-import Token as t
-import TokenType as tt
+from Token import Token
+from TokenType import TokenType
 
 class RPNStacker:
 
@@ -26,21 +26,21 @@ class RPNStacker:
             if first == None:
                 try:
                     first = int(line)
-                    tokens.append(t.Token(tt.TokenType.NUM, line))
+                    tokens.append(Token(TokenType.NUM, line))
                 except:
                     raise Exception("Error: Unexpected character: " + line)
                 
             elif second == None:
                 try:
                     second = int(line)
-                    tokens.append(t.Token(tt.TokenType.NUM, line))
+                    tokens.append(Token(TokenType.NUM, line))
                 except:
                     raise Exception("Error: Unexpected character: " + line)
 
             elif op == None:
                 op = line
                 if op in self.operations:
-                    tokens.append(t.Token(tt.TokenType(op), op))
+                    tokens.append(Token(TokenType(op), op))
                 else:
                     raise Exception("Error: Unexpected character: " + op)
             
@@ -54,13 +54,13 @@ class RPNStacker:
         first, second, fn = None, None, None
 
         for token in tokens:
-            if token.type == tt.TokenType.NUM:
+            if token.type == TokenType.NUM:
                 if first == None:
                     first = int(token.lexeme)
                 elif second == None:
                     second = int(token.lexeme)
 
-            elif token.type != tt.TokenType.EOF:
+            elif token.type != TokenType.EOF:
                 fn = self.operations[token.type.value]
             
             if first and second and fn:
@@ -72,8 +72,6 @@ class RPNStacker:
 
     def eval(self, inputFile):
         tokens = self.scan(inputFile)
-        for token in tokens:
-            print(token.toString())
         return self.evalTokens(tokens)
 
 rpnStacker = RPNStacker()
