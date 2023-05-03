@@ -1,5 +1,4 @@
 import sys
-from Token import Token
 from TokenType import TokenType
 from Regex import Regex
 
@@ -11,45 +10,10 @@ class RPNStacker:
         "*": lambda x, y : x * y,
         "/": lambda x, y : x / y
     }    
-
-    def getLines(self, inputFile):    
-        file = open(inputFile, "r")
-        return file.readlines()
     
     def scan(self, inputFile):
-        lines = self.getLines(inputFile)
-        tokens = []
-
-        first, second, op = None, None, None
-        for line in lines:
-            line = str.strip(line)
-
-            if first == None:
-                if Regex.isNum(line):
-                    first = int(line)
-                    tokens.append(Token(TokenType.NUM, line))
-                else:
-                    raise Exception("Error: Unexpected character: " + line)
-                
-            elif second == None:
-                if Regex.isNum(line):
-                    second = int(line)
-                    tokens.append(Token(TokenType.NUM, line))
-                else:
-                    raise Exception("Error: Unexpected character: " + line)
-
-            elif op == None:
-                op = line
-                if Regex.isOP(op):
-                    tokens.append(Token(TokenType(op), op))
-                else:
-                    raise Exception("Error: Unexpected character: " + op)
-            
-            if first and second and op:
-                second = None
-                op = None
-        
-        return tokens
+        file = open(inputFile, "r")
+        return Regex.toTokens(file.readlines())
 
     def evalTokens(self, tokens):
         first, second, fn = None, None, None
